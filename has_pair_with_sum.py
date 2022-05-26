@@ -21,7 +21,7 @@ def hasPairWithSum(arr, sum):
         hi-=1
   return False;
 
-# no longer given a sorted array
+# no longer given a sorted array (HashSet)
 def hasPairWithSum2(arr, sum):
   comp = set([])
   for i in arr:
