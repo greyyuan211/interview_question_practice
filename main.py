@@ -1,46 +1,34 @@
-# //Google Question
-# //Given an array = [2,5,1,2,3,5,1,2,4]:
-# //It should return 2
+stream_of_message = [[],[1,'foo'],[2,'bar'],[3,'foo'],[8,'bar'],[10,'foo'],[11,'foo']]
+# ouptut_expected = [null,true,true,false,false,false,true]
+output = []
 
-# //Given an array = [2,1,1,2,3,5,1,2,4]:
-# //It should return 1
+class Logger:
 
-# //Given an array = [2,3,4,5]:
-# //It should return undefined
+  def __init__(self):
+    self.dict_message = {}
+    
+  def should_print_message(self, timestamp: int, message: str)->bool:
+    if timestamp is None or message is None:
+      return None
+    
+    if message not in self.dict_message:
+      self.dict_message[message] = timestamp
+      return True
 
-# Brute-force
-def first_recurring_char(input):
-  for i in range(0,len(input)):
-    # use a hashtable to dealing with the following example:
-    # //Given an array = [2,1,1,2,3,5,1,2,4]:
-    # //It should return 1
-    dict = {}
-    for j in range(i+1,len(input)):
-      if (input[j] in dict):
-        return input[j]
-      else:
-        dict[input[j]] = j
-      if (input[i]==input[j]):
-        return input[i]
-  return None
-
-# hashtable O(n)
-def first_recurring_char2(input):
-  dict = {}
-  for i in range(0,len(input)):
-    if (input[i] in dict):
-      return input[i]
+    if timestamp - self.dict_message[message] >= 10:
+      self.dict_message[message] = timestamp
+      return True
     else:
-      dict[input[i]] = i
-  
-# //Bonus... What if we had this:
-# // [2,5,5,2,3,5,1,2,4]
-# // return 5 because the pairs are before 2,2
+      return False
 
-print(first_recurring_char([2,5,1,2,3,5,1,2,4]))
-print(first_recurring_char([2,1,1,2,3,5,1,2,4]))
-print(first_recurring_char([2,3,4,5]))
+logger = Logger()
+for message in stream_of_message:
+  if len(message) == 0:
+    output.append(logger.should_print_message(None,None))
+  else:
+    timestamp = message[0]
+    message = message[1]
+    output.append(logger.should_print_message(timestamp,message))
 
-print(first_recurring_char2([2,5,1,2,3,5,1,2,4]))
-print(first_recurring_char2([2,1,1,2,3,5,1,2,4]))
-print(first_recurring_char2([2,3,4,5]))
+
+print(output)
